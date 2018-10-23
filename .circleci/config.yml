@@ -41,5 +41,12 @@ jobs:
     # run tests!
     - run: gradle test
 
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+    - test
+
+
 
 
