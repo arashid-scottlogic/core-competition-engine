@@ -2,6 +2,7 @@ package com.scottlogic.competition_engine.application;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.assertj.core.api.Assertions.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -10,7 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class ApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	public void example() {
+        assertThat(true).isEqualTo(true);
 	}
 
 }
