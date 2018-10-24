@@ -30,15 +30,3 @@ dependencies {
     compileOnly('org.projectlombok:lombok')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
-
-//mainClassName = 'Application'
-jar {
-    doFirst {
-        manifest {
-            attributes(
-                    'Dependencies': configurations.compileOnly.files.collect { it.name }.join(' '),
-                    'Main-Class': 'src/main/java/com.scottlogic.competition_engine.application.Application',
-            )
-        }
-    }
-}
