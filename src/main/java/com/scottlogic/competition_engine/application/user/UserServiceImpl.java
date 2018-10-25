@@ -11,16 +11,9 @@ public class UserServiceImpl{
 
     @CrossOrigin
     @GetMapping(value="/users/authorise")
-    public String authoriseToken(String token) throws ServletException {
+    public String authoriseToken() throws ServletException {
 
-        System.out.println("Authorise method");
-        System.out.println(token);
-
-        if (token==null) {
-            throw new ServletException("Supplied empty token");
-        }
-
-        // for now it just echoes the token
-        return token;
+        // for now it just returns a hardcoded String
+        return "Hello World";
     }
 }

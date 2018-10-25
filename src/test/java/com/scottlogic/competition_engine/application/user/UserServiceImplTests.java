@@ -1,4 +1,4 @@
-package com.scottlogic.competition_engine.application;
+package com.scottlogic.competition_engine.application.user;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.web.servlet.MockMvc;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -26,15 +25,8 @@ public class UserServiceImplTests {
     private MockMvc mockMvc;
 
     @Test
-    public void EmptyTokenExceptionThrown() throws Exception {
-        this.mockMvc.perform(get("/users/authorise")).andDo(print()).andExpect(status().isOk())
-                .andExpect(status().isInternalServerError())
-                .andExpect(content().string("Supplied empty token"));
-    }
-
-    @Test
     public void DefaultMessageReturned() throws Exception {
-        this.mockMvc.perform(get("/users/authorise/message")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(endsWith("message")));
+        this.mockMvc.perform(get("/users/authorise")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(endsWith("Hello World")));
     }
 }
