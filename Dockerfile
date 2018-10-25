@@ -4,9 +4,9 @@ FROM openjdk:8-jre-alpine
 WORKDIR /app
 
 # Copy jar file into container
-COPY ./SNAPSHOT.jar /app
+COPY ./application.jar /app
 
 # port to expose
 EXPOSE 80
 
-CMD ["java", "-jar", "SNAPSHOT.jar"]
+CMD ["java", "-jar", "application.jar"]
