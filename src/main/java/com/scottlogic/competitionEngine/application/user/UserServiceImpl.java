@@ -1,4 +1,4 @@
-package com.scottlogic.competition_engine.application.user;
+package com.scottlogic.competitionEngine.application.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

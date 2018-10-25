@@ -1,4 +1,4 @@
-package com.scottlogic.competition_engine.application;
+package com.scottlogic.competitionEngine.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

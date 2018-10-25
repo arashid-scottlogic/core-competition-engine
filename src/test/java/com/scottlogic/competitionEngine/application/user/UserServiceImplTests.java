@@ -1,4 +1,4 @@
-package com.scottlogic.competition_engine.application.user;
+package com.scottlogic.competitionEngine.application.user;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
