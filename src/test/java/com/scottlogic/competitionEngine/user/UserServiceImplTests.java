@@ -1,4 +1,4 @@
-package com.scottlogic.competitionEngine.application.user;
+package com.scottlogic.competitionEngine.user;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,8 +24,8 @@ public class UserServiceImplTests {
     private MockMvc mockMvc;
 
     @Test
-    public void DefaultMessageReturned() throws Exception {
-        this.mockMvc.perform(get("/users/authorise")).andExpect(status().isOk())
+    public void defaultMessageReturned() throws Exception {
+        this.mockMvc.perform(get("/users/current")).andExpect(status().isOk())
                 .andExpect(content().string(endsWith("Hello World")));
     }
 }

@@ -1,4 +1,4 @@
-package com.scottlogic.competitionEngine.application.user;
+package com.scottlogic.competitionEngine.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,9 +13,8 @@ public class UserServiceImpl {
     @Autowired
     public UserServiceImpl() {}
 
-    @CrossOrigin (origins = "http://localhost:3000")
-    @GetMapping("/authorise")
-    public String authoriseToken() {
+    @GetMapping("/current")
+    public String getCurrentUser() {
 
         // for now it just returns a hardcoded String
         return "Hello World";
