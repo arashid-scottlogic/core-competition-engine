@@ -5,17 +5,28 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletException;
+
 @RestController
-public class UserServiceImpl{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl() {}
 
     @CrossOrigin
     @GetMapping("/users/authorise")
-    public String authoriseToken() {
+    public String authoriseToken(String token) throws ServletException {
 
-        // for now it just returns a hardcoded String
-        return "Hello World";
+        String name = "";
+
+        if (token==null) {
+            throw new ServletException("Empty token");
+        }
+
+        // in the auth part of the header
+        // bearer - 7 chars?
+        // return name
+
+        return name;
     }
 }
