@@ -23,5 +23,3 @@ dependencies {
 bootJar {
     archiveName = "application.jar"
 }
-
-build.dependsOn(copyJar)
