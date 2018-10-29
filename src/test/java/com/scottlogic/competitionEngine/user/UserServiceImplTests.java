@@ -36,16 +36,25 @@ public class UserServiceImplTests {
         this.mockMvc.perform(get("/users/current")
                 .header(SecurityConstants.HEADER_STRING, "Bearer " + T))
                 .andExpect(status().isOk())
-                .andExpect(content().string(endsWith("Arran Rashid")));
+                .andExpect(content().string(endsWith("Francis Donald")));
     }
 
     @Test
     public void givenNoTokenThrowsException() throws Exception {
 
         this.mockMvc.perform(get("/users/current")
-                .header(SecurityConstants.HEADER_STRING, "NOT_A_TOKEN"))
+                .header(SecurityConstants.HEADER_STRING, "Bearer "))
                 .andExpect(status().isInternalServerError());
                 //.andExpect(jsonPath("$.error").value("Unexpected Exception"));
+    }
+
+    @Test
+    public void givenBadHeaderThrowsException() throws Exception {
+
+        this.mockMvc.perform(get("/users/current")
+                .header("SecurityConstants.HEADER_STRING", "Bear " + T))
+                .andExpect(status().isInternalServerError());
+        //.andExpect(jsonPath("$.error").value("Unexpected Exception"));
     }
 
     @Test

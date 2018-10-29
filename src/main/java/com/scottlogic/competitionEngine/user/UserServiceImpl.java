@@ -17,11 +17,9 @@ public class UserServiceImpl implements UserService {
     @GetMapping(value = "/current")
     //this request is the headers which has Authorization: bearer and the bearer = "Bearer" + token
     public String getCurrentUser(HttpServletRequest request) throws ServletException {
-
         if (request == null) {
             throw new ServletException("Null request");
         }
-
         String header = request.getHeader(SecurityConstants.HEADER_STRING);
 
         if (header == null || !header.startsWith(SecurityConstants.BEARER)) {

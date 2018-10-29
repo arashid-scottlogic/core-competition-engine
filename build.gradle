@@ -29,7 +29,7 @@ dependencies {
 	runtime 'io.jsonwebtoken:jjwt-impl:0.10.5', 'io.jsonwebtoken:jjwt-jackson:0.10.5'
 	compileOnly('org.projectlombok:lombok')
 	compile 'io.jsonwebtoken:jjwt-api:0.10.5'
-	compile("org.springframework.boot:spring-boot-starter-security") 
+//	compile("org.springframework.boot:spring-boot-starter-security") 
 	runtime('io.jsonwebtoken:jjwt-impl:0.10.5', 'io.jsonwebtoken:jjwt-jackson:0.10.5')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.junit.jupiter:junit-jupiter-api:5.3.1')
