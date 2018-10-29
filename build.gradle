@@ -30,5 +30,6 @@ dependencies {
 //	implementation('org.flywaydb:flyway-core')
 //	runtimeOnly('org.postgresql:postgresql')
 	compileOnly('org.projectlombok:lombok')
+	testCompile ('org.junit.jupiter:junit-jupiter-api:5.0.0-M2')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
