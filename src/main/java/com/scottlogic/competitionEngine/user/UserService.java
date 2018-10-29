@@ -1,4 +1,4 @@
-package com.scottlogic.competition_engine.application.user;
+package com.scottlogic.competitionEngine.user;
 
 public interface UserService {
 }
