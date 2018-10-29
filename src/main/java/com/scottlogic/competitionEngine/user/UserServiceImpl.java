@@ -41,9 +41,12 @@ public class UserServiceImpl implements UserService {
             throw new ServletException("Null request");
         }
 
+        System.out.println("Before header");
         String header = request.getHeader(SecurityConstants.headerString);
+        System.out.println(header);
         String bearer = "Bearer ";
         if (header == null || !header.startsWith(bearer)) {
+            System.out.println("Faulty header");
             throw new ServletException("No JWT token found in request headers");
         }
 
