@@ -1,11 +1,14 @@
 package com.scottlogic.competitionEngine.user;
 
 import io.jsonwebtoken.JwtException;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -24,7 +27,7 @@ public class UserServiceImplTests {
     @Autowired
     private MockMvc mockMvc;
 
-    public final static String T = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOiIyLjAiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vOTE4ODA0MGQtNmM2Ny00YzViLWIxMTItMzZhMzA0YjY2ZGFkL3YyLjAiLCJzdWIiOiJBQUFBQUFBQUFBQUFBQUFBQUFBQUFQbjRReDhkVjhiQVJOLUVrRGItd2trIiwiYXVkIjoiODA3ZjU3MDAtNmIxMi00N2I4LWI0MzktNDlhNzEzNTU2OGJiIiwiZXhwIjoxNTQwNjU0NzAzLCJpYXQiOjE1NDA1NjgwMDMsIm5iZiI6MTU0MDU2ODAwMywibmFtZSI6IkFycmFuIFJhc2hpZCIsInByZWZlcnJlZF91c2VybmFtZSI6ImFycmFuckBtc24uY29tIiwib2lkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLWU5ODgtODcwZjNmZDI1NTFiIiwidGlkIjoiOTE4ODA0MGQtNmM2Ny00YzViLWIxMTItMzZhMzA0YjY2ZGFkIiwibm9uY2UiOiI1MzZjYTEyOC1jZGFkLTRkZWYtYThmNi00ZTVjMjEzNzg5NzYiLCJhaW8iOiJEZGRpNGN1RnBhNWpGKkFvSkpkQWcxVzZlZ1JnZ0xZZ0R5RFFyUm00V1FRalhaYkJBS3Fmc05KM1Bxa3pYOXZWZ3NadlF6RVVHbm9RbHN0blJjcXpPTTlBSm03OUxxTk02b0daKlp4WEZaazMifQ.IunLWYXrGxFJHKKphC8flop7n0znGhGQ5FwVA-miN9leddpr_2J2oIyHBzmI8_YC4q4hGgFhyt2mSx5Neandgw";
+    public final static String T = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOiIyLjAiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vOTE4ODA0MGQtNmM2Ny00YzViLWIxMTItMzZhMzA0YjY2ZGFkL3YyLjAiLCJzdWIiOiJBQUFBQUFBQUFBQUFBQUFBQUFBQUFERS05d25XVnROSW56WFE0ek82Z0FzIiwiYXVkIjoiODA3ZjU3MDAtNmIxMi00N2I4LWI0MzktNDlhNzEzNTU2OGJiIiwiZXhwIjoxNTQwOTA4OTkwLCJpYXQiOjE1NDA4MjIyOTAsIm5iZiI6MTU0MDgyMjI5MCwibmFtZSI6IkZyYW5jaXMgRG9uYWxkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZmRvbmFsZDJAaG90bWFpbC5jby51ayIsIm9pZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC1hOWFjLTY1M2ZhZjM4MjIxZSIsInRpZCI6IjkxODgwNDBkLTZjNjctNGM1Yi1iMTEyLTM2YTMwNGI2NmRhZCIsIm5vbmNlIjoiYjFiZjdjNjMtN2I5Ny00OGY1LWFjMzMtNTcxMDJhNGEzMDI3IiwiYWlvIjoiRGR0WUNaaDdIREhqVkRpNUxLRzVMcFFGbDkyOFg5MW9TM2VVRW9xSlY0RXpGWmNtTFhpUEk1M3pqKlN2NnhwOGk4dmxreXVoeDhMbnJZdmE4eXFydmlrbFgwQSpOeGhGSzBwamZRbHd2MDBVIn0.aVEXgA2jCUIgX9c9N2AR1jiafZVGcTanN7U7BLeZl5RmXOqsjba8lSTZO0HP_oFLUeqyhODGdcaih0KeDaI7qw";
 
     @Test
     public void correctUsernameReturned() throws Exception {
@@ -32,8 +35,8 @@ public class UserServiceImplTests {
         System.out.println(this.mockMvc.toString());
         this.mockMvc.perform(get("/users/current")
                 .header(SecurityConstants.headerString, "Bearer " + T))
-                .andExpect(status().isOk());
-                //.andExpect(content().string(endsWith("Arran Rashid")));
+                .andExpect(status().isOk())
+                .andExpect(content().string(endsWith("Arran Rashid")));
     }
 
     @Test
@@ -48,8 +51,7 @@ public class UserServiceImplTests {
     @Test
     public void correctUsernameReturnedFromToken() throws JwtException, NoSuchAlgorithmException {
         UserServiceImpl service = new UserServiceImpl();
-                String user = service.getUserFromToken(T);
-        System.out.println(user);
-//        Assertions.assertTrue(user.equals("Arran Rashid"));
+        String user = service.getUserFromToken(T);
+        Assertions.assertTrue(user.equals("Francis Donald"));
     }
 }
