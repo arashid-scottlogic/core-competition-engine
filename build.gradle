@@ -23,9 +23,4 @@ bootJar {
     archiveName = "application.jar"
 }
 
-task copyJar(type: Copy) {
-    from bootJar
-    destinationDir = file("output")
-}
-
 build.dependsOn(copyJar)
