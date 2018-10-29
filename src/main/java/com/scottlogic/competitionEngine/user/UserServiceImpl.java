@@ -5,6 +5,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.jsonwebtoken.Jwts;
 
@@ -16,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 
 
 @RestController
+@RequestMapping("/users")
 public class UserServiceImpl implements UserService {
 //    private PublicKey publicKey;
 //    private PrivateKey privateKey;
@@ -31,17 +33,20 @@ public class UserServiceImpl implements UserService {
 //    }
 
 
-    @GetMapping(value = "/users/authorize")
+    @GetMapping(value = "/current")
     //this request is the headers which has Authorization: bearer and the bearer = "Bearer" + token
-    public String authorizeTemp(HttpServletRequest request) throws ServletException {
+    public String getCurrentUser(HttpServletRequest request) throws ServletException {
+
         if (request == null) {
             throw new ServletException("Null request");
         }
+
         String header = request.getHeader(SecurityConstants.headerString);
         String bearer = "Bearer ";
         if (header == null || !header.startsWith(bearer)) {
             throw new ServletException("No JWT token found in request headers");
         }
+
         String token = header.substring(bearer.length());
         String username;
         try {
@@ -49,6 +54,7 @@ public class UserServiceImpl implements UserService {
         } catch (JwtException e) {
             throw new ServletException("Invalid token");
         }
+
         if (username == null || username.isEmpty()) throw new ServletException("No user found");
         return username;
     }
