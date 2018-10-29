@@ -1,6 +1,8 @@
 package com.scottlogic.competitionEngine.user;
 
 public class SecurityConstants {
-    public static final String SECRET = "secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret";
-    public static final String headerString = "Authorization";
+    static final String SECRET = "secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret";
+    static final String HEADER_STRING = "Authorization";
+    static final String BEARER = "Bearer ";
+
 }

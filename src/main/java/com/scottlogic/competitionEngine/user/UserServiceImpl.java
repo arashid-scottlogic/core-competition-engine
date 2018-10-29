@@ -1,6 +1,7 @@
 package com.scottlogic.competitionEngine.user;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/users")
 public class UserServiceImpl implements UserService {
 
-    public final static String BEARER = "Bearer";
-
     @GetMapping(value = "/current")
     //this request is the headers which has Authorization: bearer and the bearer = "Bearer" + token
     public String getCurrentUser(HttpServletRequest request) throws ServletException {
@@ -23,14 +22,14 @@ public class UserServiceImpl implements UserService {
             throw new ServletException("Null request");
         }
 
-        String header = request.getHeader(SecurityConstants.headerString);
+        String header = request.getHeader(SecurityConstants.HEADER_STRING);
 
-        if (header == null || !header.startsWith(BEARER)) {
+        if (header == null || !header.startsWith(SecurityConstants.BEARER)) {
             System.out.println("Faulty header");
             throw new ServletException("No JWT token found in request headers");
         }
 
-        String token = header.substring(BEARER.length());
+        String token = header.substring(SecurityConstants.BEARER.length());
         String username;
 
         try {

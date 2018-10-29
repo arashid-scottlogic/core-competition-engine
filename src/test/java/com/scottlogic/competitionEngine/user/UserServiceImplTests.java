@@ -34,7 +34,7 @@ public class UserServiceImplTests {
 
         System.out.println(this.mockMvc.toString());
         this.mockMvc.perform(get("/users/current")
-                .header(SecurityConstants.headerString, "Bearer " + T))
+                .header(SecurityConstants.HEADER_STRING, "Bearer " + T))
                 .andExpect(status().isOk())
                 .andExpect(content().string(endsWith("Arran Rashid")));
     }
@@ -43,7 +43,7 @@ public class UserServiceImplTests {
     public void givenNoTokenThrowsException() throws Exception {
 
         this.mockMvc.perform(get("/users/current")
-                .header(SecurityConstants.headerString, "NOT_A_TOKEN"))
+                .header(SecurityConstants.HEADER_STRING, "NOT_A_TOKEN"))
                 .andExpect(status().isInternalServerError());
                 //.andExpect(jsonPath("$.error").value("Unexpected Exception"));
     }
