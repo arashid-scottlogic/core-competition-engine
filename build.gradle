@@ -20,14 +20,12 @@ dependencies {
 }
 
 bootJar {
-    archiveName="application.jar"
+    archiveName = "application.jar"
 }
 
-task copyJar {
-    copy {
-            from file('./build/libs/')
-            into '.'
-        }
+task copyJar(type: Copy) {
+    from bootJar
+    destinationDir = file("output")
 }
 
 build.dependsOn(copyJar)
