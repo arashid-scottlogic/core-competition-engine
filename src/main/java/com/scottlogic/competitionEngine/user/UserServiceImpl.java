@@ -1,7 +1,6 @@
 package com.scottlogic.competitionEngine.user;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,22 +16,30 @@ public class UserServiceImpl implements UserService {
     @GetMapping(value = "/current")
     //this request is the headers which has Authorization: bearer and the bearer = "Bearer" + token
     public String getCurrentUser(HttpServletRequest request) throws ServletException {
+
         if (request == null) {
             throw new ServletException("Null request");
         }
+
         String header = request.getHeader(SecurityConstants.HEADER_STRING);
 
         if (header == null || !header.startsWith(SecurityConstants.BEARER)) {
-            System.out.println("Faulty header");
             throw new ServletException("No JWT token found in request headers");
         }
 
-        String token = header.substring(SecurityConstants.BEARER.length());
+        String token = "";
+
+        try {
+            token = header.substring(SecurityConstants.BEARER.length());
+        } catch (Exception e) {
+            throw new ServletException("Unable to extract token");
+        }
+
         String username;
 
         try {
             username = getUserFromToken(token);
-        } catch (JwtException e) {
+        } catch (Exception e) {
             throw new ServletException("Invalid token");
         }
 
@@ -41,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // Returns decoded username
-    public String getUserFromToken(String token) throws JwtException {
+    String getUserFromToken(String token) throws JwtException {
 
         Claims claims = Jwts.parser()
                 .setSigningKey(SecurityConstants.SECRET.getBytes())

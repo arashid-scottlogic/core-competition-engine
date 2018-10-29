@@ -1,23 +1,22 @@
 package com.scottlogic.competitionEngine.user;
 
-import io.jsonwebtoken.JwtException;
-import org.junit.jupiter.api.Assertions;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 import static org.hamcrest.CoreMatchers.endsWith;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
-
-import java.security.NoSuchAlgorithmException;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -32,7 +31,6 @@ public class UserServiceImplTests {
     @Test
     public void correctUsernameReturned() throws Exception {
 
-        System.out.println(this.mockMvc.toString());
         this.mockMvc.perform(get("/users/current")
                 .header(SecurityConstants.HEADER_STRING, "Bearer " + T))
                 .andExpect(status().isOk())
@@ -40,27 +38,32 @@ public class UserServiceImplTests {
     }
 
     @Test
-    public void givenNoTokenThrowsException() throws Exception {
+    public void givenNoTokenThrowsException()  {
 
-        this.mockMvc.perform(get("/users/current")
-                .header(SecurityConstants.HEADER_STRING, "Bearer "))
-                .andExpect(status().isInternalServerError());
-                //.andExpect(jsonPath("$.error").value("Unexpected Exception"));
+        try {
+            this.mockMvc.perform(get("/users/current")
+                    .header(SecurityConstants.HEADER_STRING, "Bearer "));
+        } catch (Exception e) {
+            assertEquals("Invalid token", e.getMessage());
+        }
     }
 
     @Test
-    public void givenBadHeaderThrowsException() throws Exception {
+    public void givenBadHeaderThrowsException() {
 
-        this.mockMvc.perform(get("/users/current")
-                .header("SecurityConstants.HEADER_STRING", "Bear " + T))
-                .andExpect(status().isInternalServerError());
-        //.andExpect(jsonPath("$.error").value("Unexpected Exception"));
+        try {
+            this.mockMvc.perform(get("/users/current")
+                    .header(SecurityConstants.HEADER_STRING, "Bear " + T));
+        } catch (Exception e) {
+            assertEquals("No JWT token found in request headers", e.getMessage());
+        }
+
     }
 
     @Test
-    public void correctUsernameReturnedFromToken() throws JwtException, NoSuchAlgorithmException {
+    public void correctUsernameReturnedFromToken() {
         UserServiceImpl service = new UserServiceImpl();
         String user = service.getUserFromToken(T);
-        Assertions.assertTrue(user.equals("Francis Donald"));
+        assertTrue(user.equals("Francis Donald"));
     }
 }
