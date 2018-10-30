@@ -1,33 +1,25 @@
-configurations {
-    featureRuntime {
-        extendsFrom testRuntime
-    }
-    featureCompile{
-        extendsFrom testCompile
-    }
+sourceSets{
+    featureTest{}
 }
 
-sourceSets{
-    acceptTest{
-        java.srcDir file('src/featureTest/java')
-        resources.srcDir file('src/featureTest/resources')
-        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
-        runtimeClasspath += output + compileClasspath
-    }
+configurations {
+    featureTestCompile.extendsFrom testCompile
 }
 
 dependencies {
-    featureCompile('io.cucumber:cucumber-java8:4.0.0')
-    featureCompile('io.cucumber:cucumber-junit:4.0.0')
+    featureTestCompile sourceSets.main.compileClasspath
+    featureTestCompile sourceSets.main.output
+    featureTestCompile('io.cucumber:cucumber-java8:4.1.1')
+    featureTestCompile('io.cucumber:cucumber-junit:4.1.1')
+
+    //TODO do we need this?
+    //featureTestRuntime sourceSets.main.runtimeClasspath
 }
 
-task featureTest(type: Test) {
-    dependsOn assemble, compileTestJava
-    doLast {
-        main = "cucumber.api.cli.Main"
-        classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-        args = ['--plugin', 'pretty', '--glue', 'steps', 'src/featureTest/resources']
-    }
+task featureTest(type: JavaExec) {
+    main = "cucumber.api.cli.Main"
+    classpath(sourceSets.featureTest.runtimeClasspath)
+    args('--plugin', 'pretty', '--glue', 'steps', sourceSets.featureTest.output.resourcesDir)
 }
 
-test.dependsOn featureTest
+check.dependsOn(featureTest)
