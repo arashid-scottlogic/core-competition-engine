@@ -1,0 +1,25 @@
+sourceSets{
+    featureTest{}
+}
+
+configurations {
+    featureTestCompile.extendsFrom testCompile
+}
+
+dependencies {
+    featureTestCompile sourceSets.main.compileClasspath
+    featureTestCompile sourceSets.main.output
+    featureTestCompile('io.cucumber:cucumber-java8:4.1.1')
+    featureTestCompile('io.cucumber:cucumber-junit:4.1.1')
+
+    //TODO do we need this?
+    //featureTestRuntime sourceSets.main.runtimeClasspath
+}
+
+task featureTest(type: JavaExec) {
+    main = "cucumber.api.cli.Main"
+    classpath(sourceSets.featureTest.runtimeClasspath)
+    args('--plugin', 'pretty', '--glue', 'steps', sourceSets.featureTest.output.resourcesDir)
+}
+
+check.dependsOn(featureTest)
