@@ -30,7 +30,6 @@ public class UserServiceImplTests {
 
     @Test
     public void correctUsernameReturned() throws Exception {
-
         this.mockMvc.perform(get("/users/current")
                 .header(SecurityConstants.HEADER_STRING, "Bearer " + T))
                 .andExpect(status().isOk())
@@ -38,26 +37,43 @@ public class UserServiceImplTests {
     }
 
     @Test
-    public void givenNoTokenThrowsException()  {
-
-        try {
-            this.mockMvc.perform(get("/users/current")
-                    .header(SecurityConstants.HEADER_STRING, "Bearer "));
-        } catch (Exception e) {
-            assertEquals("Invalid token", e.getMessage());
-        }
-    }
-
-    @Test
     public void givenBadHeaderThrowsException() {
-
         try {
             this.mockMvc.perform(get("/users/current")
                     .header(SecurityConstants.HEADER_STRING, "Bear " + T));
         } catch (Exception e) {
-            assertEquals("No JWT token found in request headers", e.getMessage());
+            assertEquals("Invalid request header", e.getMessage());
         }
+    }
 
+    @Test
+    public void givenBadTokenThrowsException() {
+        try {
+            this.mockMvc.perform(get("/users/current")
+                    .header(SecurityConstants.HEADER_STRING, "Bearer " + "NOT_A_TOKEN"));
+        } catch (Exception e) {
+            assertEquals("Invalid request token", e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenNoTokenThrowsException()  {
+        try {
+            this.mockMvc.perform(get("/users/current")
+                    .header(SecurityConstants.HEADER_STRING, "Bearer "));
+        } catch (Exception e) {
+            assertEquals("No JWT token found in request headers or token is invalid", e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenEmptyTokenThrowsException()  {
+        try {
+            this.mockMvc.perform(get("/users/current")
+                    .header(SecurityConstants.HEADER_STRING, "Bearer " + ""));
+        } catch (Exception e) {
+            assertEquals("No JWT token found in request headers or token is invalid", e.getMessage());
+        }
     }
 
     @Test

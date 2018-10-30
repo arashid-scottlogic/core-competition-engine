@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserServiceImpl implements UserService {
 
     @GetMapping(value = "/current")
-    //this request is the headers which has Authorization: bearer and the bearer = "Bearer" + token
+    // this request is the headers which has Authorization: bearer and the bearer = "Bearer" + token
+    // if valid headers, return parsed name of the user
     public String getCurrentUser(HttpServletRequest request) throws ServletException {
 
         if (request == null) {
@@ -24,10 +25,10 @@ public class UserServiceImpl implements UserService {
         String header = request.getHeader(SecurityConstants.HEADER_STRING);
 
         if (header == null || !header.startsWith(SecurityConstants.BEARER)) {
-            throw new ServletException("No JWT token found in request headers");
+            throw new ServletException("Invalid request header");
         }
 
-        String token = "";
+        String token;
 
         try {
             token = header.substring(SecurityConstants.BEARER.length());
@@ -35,26 +36,27 @@ public class UserServiceImpl implements UserService {
             throw new ServletException("Unable to extract token");
         }
 
-        String username;
+        String userName;
 
         try {
-            username = getUserFromToken(token);
+            userName = getUserFromToken(token);
         } catch (Exception e) {
-            throw new ServletException("Invalid token");
+            throw new ServletException("No JWT token found in request headers or token is invalid");
         }
 
-        if (username == null || username.isEmpty()) throw new ServletException("No user found");
-        return username;
+        return userName;
     }
 
-    // Returns decoded username
+    // Verifies the received token String against the secret and returns extracted user name
     String getUserFromToken(String token) throws JwtException {
 
+        // parses the payload claims
         Claims claims = Jwts.parser()
                 .setSigningKey(SecurityConstants.SECRET.getBytes())
                 .parseClaimsJws(token)
                 .getBody();
 
+        // returns name
         return claims.get("name", String.class);
     }
 }
