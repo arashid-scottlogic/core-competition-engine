@@ -1,37 +1,28 @@
-buildscript {
-	ext {
-		springBootVersion = '2.0.5.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.0.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.5.RELEASE'
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 group = 'com.scottlogic.competition_engine'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-//	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-	implementation('org.springframework.boot:spring-boot-starter-websocket')
-//	implementation('org.flywaydb:flyway-core')
-//	runtimeOnly('org.postgresql:postgresql')
-    
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testCompile ('org.junit.jupiter:junit-jupiter-api:5.0.0-M2')
+    implementation('org.springframework.boot:spring-boot-starter-websocket')
+    compileOnly('org.projectlombok:lombok')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testCompile ('org.junit.jupiter:junit-jupiter-api:5.3.1')
     testCompile('org.assertj:assertj-core:3.11.1')
+}
+
+bootJar {
+    archiveName = "application.jar"
 }
 
 apply from: 'featureTest.gradle'
