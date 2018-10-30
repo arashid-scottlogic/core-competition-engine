@@ -18,8 +18,11 @@ dependencies {
     compileOnly('org.projectlombok:lombok')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testCompile ('org.junit.jupiter:junit-jupiter-api:5.3.1')
+    testCompile('org.assertj:assertj-core:3.11.1')
 }
 
 bootJar {
     archiveName = "application.jar"
 }
+
+apply from: 'featureTest.gradle'
